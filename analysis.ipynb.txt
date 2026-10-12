@@ -1,0 +1,38 @@
+analysis.ipynb
+
+
+
+import pandas as pd
+import matplotlib.pyplot as plt
+df = pd.read_csv('greendestination (1).csv')
+print(df.head())
+     
+
+total = len(df)
+left = (df['Attrition'] == 'Yes').sum()
+rate = (left/total)*100
+print(f"Total: {total}, Left: {left}, Rate: {rate:.2f}%")
+df['Attrition'].value_counts().plot(kind='bar', color=['green','red'])
+plt.title(f'Attrition Rate: {rate:.2f}% (237 out of 1470)')
+plt.show()
+     
+
+print(df.groupby('Attrition')['Age'].mean())
+plt.hist([df[df['Attrition']=='No']['Age'], df[df['Attrition']=='Yes']['Age']], label=['Stayed','Left'], bins=15)
+plt.legend()
+plt.title('Age vs Attrition - Young leave more')
+plt.show()
+     
+
+print(df.groupby('Attrition')['YearsAtCompany'].mean())
+plt.hist([df[df['Attrition']=='No']['YearsAtCompany'], df[df['Attrition']=='Yes']['YearsAtCompany']], label=['Stayed','Left'], bins=15)
+plt.legend()
+plt.title('Years vs Attrition - New joiners leave')
+plt.show()
+     
+
+print(df.groupby('Attrition')['MonthlyIncome'].mean())
+plt.boxplot([df[df['Attrition']=='No']['MonthlyIncome'], df[df['Attrition']=='Yes']['MonthlyIncome']], tick_labels=['Stayed','Left'])
+plt.title('Income vs Attrition - Low income leave')
+plt.show()
+     
